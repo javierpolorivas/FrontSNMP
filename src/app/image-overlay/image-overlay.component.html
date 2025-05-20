@@ -1,0 +1,66 @@
+<div class="all">
+  <div class="card-container">
+    <div class="image-container">
+      <img
+        #backgroundImage
+        [src]="imageSrc"
+        class="background-image"
+        (load)="onImageLoad()"
+      />
+
+      <div 
+        *ngFor="let port of ports" 
+        class="rectangle"
+        [ngStyle]="{
+          'left': getRelativePosition(port).left + '%',
+          'top': getRelativePosition(port).top + '%',
+          'background-color': port.color,
+          'border-color': port.color
+        }"
+        (mouseover)="showTooltip(port.id)"
+      >
+      </div>
+
+      <div class="id-rectangle" *ngIf="selectedPort">
+        <div [innerHTML]="tooltipText"></div>
+
+        <!-- Botón que abre la ventana modal de confirmación -->
+        <div class="button-group">
+          <button 
+            [class.active]="selectedPort.adminState === 1" 
+            (click)="openConfirmationModal(selectedPort)">
+            {{ selectedPort.adminState === 1 ? 'Down' : 'Up' }}
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let port of tooltipData">
+            <td>{{ port.name }}</td>
+            <td>{{ port.state }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal">
+    <p>¿Estás seguro de que quieres cambiar el estado administrativo del puerto a <strong>{{ newStateText }}</strong>?</p>
+    <div class="modal-buttons">
+      <button class="confirm" (click)="confirmChange()">Sí</button>
+      <button class="cancel" (click)="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
