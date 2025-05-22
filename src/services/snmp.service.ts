@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SnmpService {
-  private apiUrl = 'https://backsnmp.onrender.com'; // Cambia esto si tu servidor tiene una URL diferente.
+  private apiUrl = 'http://localhost:3000'; // Cambia esto si tu servidor tiene una URL diferente.
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class SnmpService {
     const oid = `1.3.6.1.2.1.2.2.1.7.${portId}`; // OID específico para el adminState
   
     // Asegúrate de que this.apiUrl esté correctamente configurado
-    const apiUrl = 'https://backsnmp.onrender.com';  // o la URL base correcta de tu backend
+    const apiUrl = 'http://localhost:3000/snmp';  // o la URL base correcta de tu backend
     
     return this.http.post(`${apiUrl}/set?version=v2`, {
       ip,
